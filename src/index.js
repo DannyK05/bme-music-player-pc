@@ -26,7 +26,8 @@ let songIndex =
 const playIcon = ` <img src="./assets/svgs/play.svg" width="20" height="20" alt="Play"/>`;
 const pauseIcon = ` <img src="./assets/svgs/pause.svg" width="20" height="20" alt="Pause"/>`;
 
-const homeRender = `<img class="home-video" src="./assets/gifs/bmo-dancing.gif"/>`;
+const homeRender = `<img class="home-video" src="./assets/gifs/bme-default.gif"/>`;
+const playingHomeRender = `<img class="home-video" src="./assets/gifs/bme-music.gif"/>`;
 
 function storeCurrentSong(song) {
   sessionStorage.setItem("currentSong", song);
@@ -43,7 +44,7 @@ async function selectMusicFolder() {
     localStorage.setItem("defaultPath", defaultPath);
     localStorage.setItem(
       "retrievedMusicFiles",
-      JSON.stringify(retrievedMusicFiles)
+      JSON.stringify(retrievedMusicFiles),
     );
     renderMusic();
   }
@@ -59,17 +60,21 @@ function highlightCurentSong() {
   storeCurrentSong(retrievedMusicFiles[songIndex]);
 }
 function renderHome() {
-  content.innerHTML = homeRender;
+  if (playing) {
+    content.innerHTML = playingHomeRender;
+  } else {
+    content.innerHTML = homeRender;
+  }
 }
 function renderMusic() {
   const musicFilesRender = retrievedMusicFiles
     .map(
       (files) =>
         `<div class="song-${retrievedMusicFiles.indexOf(
-          files
+          files,
         )}" onclick="playMusic('${files}')">` +
         files +
-        "</div>"
+        "</div>",
     )
     .join(" ");
 
@@ -90,7 +95,7 @@ function playMusic(filePath) {
   audioPlayer.src = `${defaultPath + filePath}`;
   audioPlayer.play();
   displayScreen.textContent = shortenDisplayText(
-    `${retrievedMusicFiles[songIndex]}`
+    `${retrievedMusicFiles[songIndex]}`,
   );
   playBtn.innerHTML = pauseIcon;
   playing = true;

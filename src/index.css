@@ -39,7 +39,7 @@ main {
   position: absolute;
   color: #001623;
   transform: rotate(90deg);
-  font-size: 96px;
+  font-size: 60px;
   bottom: 80px;
   font-family: "Early GameBoy", sans-serif;
 }
