@@ -15,6 +15,8 @@ function shortenDisplayText(text) {
     return text;
   }
 }
+const normalize = (html) => html.replace("/>", ">");
+
 let retrievedMusicFiles =
   JSON.parse(localStorage.getItem("retrievedMusicFiles")) || [];
 let defaultPath = localStorage.getItem("defaultPath") || "";
@@ -117,11 +119,23 @@ function playPause() {
       playing = false;
       sessionStorage.setItem("playing", playing);
       playBtn.innerHTML = playIcon;
+      if (
+        (normalize(content.innerHTML) == normalize(homeRender)) |
+        (normalize(content.innerHTML) == normalize(playingHomeRender))
+      ) {
+        renderHome();
+      }
     } else {
       audioPlayer.play();
       playing = true;
       sessionStorage.setItem("playing", playing);
       playBtn.innerHTML = pauseIcon;
+      if (
+        (normalize(content.innerHTML) == normalize(homeRender)) |
+        (normalize(content.innerHTML) == normalize(playingHomeRender))
+      ) {
+        renderHome();
+      }
     }
     sessionStorage.setItem("playing", JSON.stringify(playing));
     audioPlayer.onended = () => {
